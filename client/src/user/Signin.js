@@ -6,14 +6,14 @@ import { Redirect } from 'react-router-dom';
 const Signin = () => {
     // useState
     const [values, setValues] = useState({
-        email: 'admin@adsvietnam.vn',
+        userEmail: 'admin@adsvietnam.vn',
         password: 'ads@123',
         error: '',
         loading: false,
         redirectToReferrer: false
     });
 
-    const { email, password, error, loading, redirectToReferrer} = values;
+    const { userEmail, password, error, loading, redirectToReferrer} = values;
     const {user} = isAuthenticated()
 
     const handleChange = name => event => {
@@ -22,11 +22,11 @@ const Signin = () => {
     const clickSubmit = (event) =>{
         event.preventDefault()
         setValues({...values, error: false, loading: true})
-        signin({email, password})
+        signin({userEmail, password})
         .then(data=> {
             if(data.error) {
                 setValues({...values, error: data.error, loading: false})
-            } 
+            }
             else {
                 authenticate(data, () =>{
                     setValues({
@@ -59,10 +59,10 @@ const Signin = () => {
         }
     }
     const signInForm = ()=> (
-        <form>            
+        <form>
             <div className="form-group">
                 <label htmlFor="formGroupExampleInput2">Email</label>
-                <input onChange={handleChange('email')} value={email} type="email" className="form-control" id="formGroupExampleInput2" placeholder="Email" />
+                <input onChange={handleChange('userEmail')} value={userEmail} type="email" className="form-control" id="formGroupExampleInput2" placeholder="Email" />
             </div>
             <div className="form-group">
                 <label htmlFor="formGroupExampleInput3">Password</label>
@@ -72,11 +72,11 @@ const Signin = () => {
         </form>
     )
     return <div>
-        <Layout title="Signin" description="Signin page" className="container col-lg-8 offset-lg-2">            
+        <Layout title="Signin" description="Signin page" className="container col-lg-8 offset-lg-2">
             {showError()}
             {showLoading()}
-            {signInForm()}  
-            {redirectUser()}          
+            {signInForm()}
+            {redirectUser()}
         </Layout>
     </div>
 }

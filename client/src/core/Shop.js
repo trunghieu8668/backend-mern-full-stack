@@ -56,18 +56,18 @@ const Shop = () => {
     }
     // Step 23
     const loadMore = () => {
-        let toSkip = skip + limit;
-       getFilteredProducts(toSkip, limit, myFilters.filters)
-       .then(data => {
-           if(data.error) {
-               setError(data.error)
-           }
-           else {
-               setFilteredResults([...filteredResults, ...data.data])
-               setSize(data.size)
-               setSkip(toSkip)
-           }
-       })
+      let toSkip = skip + limit;
+      getFilteredProducts(toSkip, limit, myFilters.filters)
+      .then(data => {
+        if(data.error) {
+          setError(data.error)
+        }
+        else {
+          setFilteredResults([...filteredResults, ...data.data])
+          setSize(data.size)
+          setSkip(toSkip)
+        }
+      })
     }
     // Step 24
     const loadMoreButton = () => {

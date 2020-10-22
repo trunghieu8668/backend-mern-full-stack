@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Layout from './Layout'
 import { read, listRelated } from './apiCore'
 import Card from './Card'
+import { Row, Col } from 'react-bootstrap'
 
 const Product = (props) => {
   // Step 1
@@ -30,26 +31,29 @@ const Product = (props) => {
   }
   useEffect(()=> {
     const productId = props.match.params.productId
-    loadSingleProduct(productId)
+    loadSingleProduct(productId);
+    window.scrollTo(0, 0)
   }, [props])
   return (
-      <Layout className="container">
+      <Layout className="container bg-white pt-2">
           <Card product={product} isLayoutProductInfo="true" />
-          <div className="clearfix"></div>
 
           {relatedProduct.length > 0 && (
-            <div>
-              <div className="AsideTitle h4 mb-4 mt-4">Related Products</div>
-              <div className="row">
-                {
-                  relatedProduct.map((relatedproduct, i)=> {
-                    return (<div key={i} className="col-6 col-md-4 mb-4">
-                      <Card product={relatedproduct} />
-                    </div>)
-                  })
-                }
+            <>
+              <div className="AsideTitle3">
+                <span className="name shadow">Sản phẩm khác</span>
               </div>
-            </div>
+              <Row xs={2} md={4} lg={4}>
+                {
+                  relatedProduct.map((relatedproduct, i)=> (
+                    <>
+                      <Card product={relatedproduct} />
+                    </>
+                    )
+                  )
+                }
+              </Row>
+            </>
           )}
 
       </Layout>

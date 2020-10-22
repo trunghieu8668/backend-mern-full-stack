@@ -1,9 +1,11 @@
 import React, {useState, Fragment} from 'react';
 import {Link, Redirect} from 'react-router-dom'
 import ShowImage from './ShowImage'
+import noPhoto from '../images/no-photo.png'
 import {addItem, updateItem, removeItem} from './cartHelpers'
 import moment from 'moment'
 import NumberFormat from 'react-number-format';
+import { Row, Col } from 'react-bootstrap'
 const Card = ({product, showViewProductButton = true, isLayoutProductInfo = false, showAddToCartButton = true, viewLayout = "grid", cartUpdate = false,
   showRemoveProductButton = false,
   setRun = f => f, // default value of function
@@ -14,7 +16,7 @@ const Card = ({product, showViewProductButton = true, isLayoutProductInfo = fals
         showViewProductButton && (
             <Link to={`/product/${product._id}`} title={product.name}>
               <button className="card-link btn btn-outline-primary">
-                View Product
+                Xem chi tiết
               </button>
             </Link>
           )
@@ -22,8 +24,8 @@ const Card = ({product, showViewProductButton = true, isLayoutProductInfo = fals
     }
     const showAddToCart = (showAddToCartButton) => {
       return showAddToCartButton && (
-        <button onClick={addToCart} className="ml-auto card-link btn btn-outline-warning">
-            Add to cart
+        <button onClick={addToCart} className="OrderProductButton ml-auto card-link btn btn-outline-warning">
+            Mua ngay
         </button>
       )
     }
@@ -74,11 +76,11 @@ const Card = ({product, showViewProductButton = true, isLayoutProductInfo = fals
         // List
         if( viewLayout !== "grid") {
           return (
-              <div className="row">
-                <div className="col-3">
+              <Row className="row">
+                <Col xs={3}>
                   <ShowImage item={product} url="product"/>
-                </div>
-                <div className="col-9">
+                </Col>
+                <Col xs={9}>
                   <h2 className="h5 font-weight-bold">{product.name}</h2>
                   <p className="card-text text-muted small mb-1">Category: { product.category && product.category.name }</p>
                   <p className="card-title text-muted small">Add on {moment(product.createdAt).fromNow()}</p>
@@ -91,76 +93,118 @@ const Card = ({product, showViewProductButton = true, isLayoutProductInfo = fals
                     { showCartUpdateOptions(cartUpdate) }
                     { showRemoveButton(showRemoveProductButton) }
                   </div>
-                </div>
+                </Col>
                 <div className="border-bottom mb-3 pb-3 clearfix col-12"></div>
-            </div>
+              </Row>
           )
         }
         else {
           // Grid
           return (
-            <div className="card">
-                <div className="card-header text-left bg-light font-weight-bold text-uppercase">{product.name}</div>
-                <div className="card-body">
+            <Col className="Home-Product">
+                <Link to={`/product/${product._id}`} title={product.name}>
+                <figure className="left-block">
+                  <span className="middle">
                     {shouldRedirect(redirect)}
-                    <ShowImage item={product} url="product"/>
-                    <p className="card-text description">{product.description.substring(0,100)}</p>
-                    <p className="card-text text-muted small mb-1">Category: { product.category && product.category.name }</p>
-                    <p className="card-title font-weight-bold text-danger price"><NumberFormat value={product.price} displayType={'text'} thousandSeparator={true} prefix={''} suffix={' đ'}/></p>
-                    <p className="card-title text-muted small">Add on {moment(product.createdAt).fromNow()}</p>
-                    <div className="d-flex">
-                        { showViewButton(showViewProductButton) }
-                        { showAddToCart(showAddToCartButton) }
-                    </div>
-
+                    <img className="f-select" src={product.pictures && product.pictures.length ? product.pictures[0].url_mobile : noPhoto }/>
+                  </span>
+                  <div className="employee-hover-overlay" />
+                </figure>
+                <div className="right-block">
+                  <h3 className="ProductName">{product.productName}</h3>
+                  <h3 className="ProductGroupName">{ product.category && product.category.name }</h3>
+                  <div className="content_price">
+                    <b className="clearfix ProductPriceNew">{ product.productPriceNew && product.productPriceNew > 0 ? <NumberFormat value={product.productPriceNew} displayType={'text'} thousandSeparator={true} prefix={''} suffix={' đ'}/> : <span className="price-contact">Liên hệ</span> }</b>
+                  </div>
                 </div>
-            </div>
+              </Link>
+              { showAddToCart(showAddToCartButton) }
+            </Col>
+
+
           )
         }
       }
       else {
         return (
-          <div className="ProductInfo clearfix mt-4 mb-4">
-              <div className="row">
-                <div className="col-md-12">
-                  <h1 className="ProductName h3 mb-4">{product.name}</h1>
-                </div>
-                <div className="col-md-6">
-                  <figure className="figure-haft">
-                    <ShowImage className="f-select" item={product} url="product"/>
-                  </figure>
-                </div>
-                <div className="col-md-6">
-                  <div className="ProductPrice font-weight-bold text-danger h3">
-                    <label className="label text-muted">Price: </label> <NumberFormat value={product.price} displayType={'text'} thousandSeparator={true} prefix={''} suffix={' đ'}/>
-                  </div>
+          <div id="Product" className="Product clearfix">
+            <div className="clearfix ProductInfo" itemScope itemType="http://schema.org/Product">
+              <Row className="row">
+                <Col className="col-12 col-xs-12 col-sm-12 col-md-6">
+                  <div className="clearfix productinfo-left-inner">
+                    <Row className="row">
 
-                  <div className="ProductOrder">
-                    <label className="text-muted">Qty</label>
-                    <div className="row">
-                      <div className="col-3 col-md-3">
-                        <select className="form-control text-center">
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                        </select>
+                      <Col className="col-12 col-xs-12">
+                        <figure id="Gallery" className="Pictures popup-gallery owl-carousel owl-theme">
+                          <a className="f-item" title href="/Image/Picture/lavie%20viva.png">
+                            <img src={product.pictures && product.pictures.length ? product.pictures[0].url : noPhoto} alt={product.productName} status={product.status2} />
+                          </a>
+                        </figure>
+                      </Col>
+                    </Row>
+                    <div className="d-none d-sm-none d-md-block">
+                      <div className="ProductInfoVisit CreateDate"><span><i className="fa fa-clock-o" /> <time>{moment(product.createdAt).format('DD/MM/YYYY | hh:mm:ss')}</time></span><span className="pull-right"><i className="fa fa-eye" /> 10797</span></div><br />
+                      <div className="clearfix" id="Social">
+                        <div className="addthis_inline_share_toolbox_2lfo" />
                       </div>
-                      <div className="col-9 col-md-9">
-                        <button className="ml-auto card-link btn btn-outline-warning">
-                          Add to cart
-                        </button>
-                      </div>
+                      <div className="clearfix" />
                     </div>
                   </div>
-                  {product.description && (
-                    <div className="clearfix ProductDescription">
-                      <div className="AsideTitle mt-3 mb-1 font-weight-bold h6 text-uppercase">Description</div>
-                      <div className="text">{product.description}</div>
+                </Col>
+                <Col className="col-12 col-xs-12 col-sm-12 col-md-6">
+                  <div className="clearfix productinfo-right-inner">
+                    <h1 itemProp="name" className="ProductNameLink ProductNameLinkDetail w-100">{product.productName}</h1>
+                    <div className="clearfix ProductMeta w-100" itemProp="offers" itemScope itemType="http://schema.org/Offer">
+                      <div className="clearfix" itemProp="offers" itemScope itemType="http://schema.org/Offer">
+                        <meta itemProp="priceCurrency" content="VND" />
+                        <p className="ProductPriceNew clearfix">Giá: <span itemProp="price">
+                          {product.productPriceNew && product.productPriceNew > 0 ? <NumberFormat value={product.productPriceNew} displayType={'text'} thousandSeparator={true} prefix={''} suffix={' đ'}/> : <span class="contact-price">Liên hệ</span> }
+                        </span></p>
+                      </div>
                     </div>
-                  )}
-                </div>
-              </div>
+                    <div className="select-box-area clearfix">
+                      <span className="select-box-lable d-block mb-2">Số lượng:</span>
+                      <div id="item-select-box" className="row align-items-center">
+                        <div className="col-4 col-xs-4">
+                          <select className="form-control text-center">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                          </select>
+                        </div>
+                        <Col className="col-8 col-xs-8 text-center">
+                          <Row className="row">
+                            <Col className="col-8 col-xs-12 col-sm-6 col-md-auto OrderProductButton"><button className="btn btn-lg text-nowrap pl-4 pr-4"><i className="fa fa-cart-plus" /> Mua ngay</button></Col>
+                          </Row>
+                        </Col>
+                      </div>
+                    </div>
+                    <div className="quickSpecs clearfix">
+                      <article id="Context" className="Context" itemProp="description" dangerouslySetInnerHTML={{__html: product.description}}>
+                      </article>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+              <div className="clearfix mt-4"></div>
+              {
+                product.context && (
+                  <Row>
+                    <Col>
+                      <section className="clearfix">
+                        <div className="AsideTitle3">
+                          <span className="name shadow">Thông tin chi tiết</span>
+                        </div>
+                        <article id="Context1" className="Context clearfix" dangerouslySetInnerHTML={{__html:product.context}}>
+                        </article>
+                      </section>
+                    </Col>
+                  </Row>
+                )
+              }
+
+            </div>
           </div>
         )
       }

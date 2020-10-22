@@ -1,15 +1,21 @@
 const mongoose = require('mongoose')
 const crypto = require('crypto')
 const { v1 : uuidv1 } = require('uuid');
+const { ObjectId } = mongoose.Schema.Types;
 
 const userSchema = new mongoose.Schema({
-    name: {
+    usergroup: {
+        type: ObjectId,
+        ref: "UserGroup",
+        required: true
+    },
+    userName: {
         type: String,
         trim: true,
         required: true,
         maxlength: 32
     },
-    email: {
+    userEmail: {
         type: String,
         trim: true,
         required: true,
@@ -19,7 +25,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    about: {
+    userDescription: {
+        type: String,
+        trim: true
+    },
+    userContext: {
         type: String,
         trim: true
     },
@@ -31,6 +41,60 @@ const userSchema = new mongoose.Schema({
     history: {
         type: Array,
         default: []
+    },
+    userLock: {
+        type: Boolean,
+        default: false
+    },
+    userSex: {
+        type: String,
+        default: 0
+    },
+    userPhone1: {
+        type: String,
+        default: 0,
+        trim: true
+    },
+    userPhone2: {
+        type: String,
+        default: 0,
+        trim: true
+    },
+    userAddress: {
+        type: String,
+        trim: true,
+        default: 0
+    },
+    userAddressProvince: {
+        type: String,
+        default: 0,
+        trim: true
+    },
+    userAddressDistrict: {
+        type: String,
+        default: 0,
+        trim: true
+    },
+    userAddressWard: {
+        type: String,
+        default: 0,
+        trim: true
+    },
+    picture: {
+        type: String,
+        default: ""
+    },
+    userIdCreate: {
+        type: ObjectId,
+        ref: 'User'
+    },
+    lastDate: {
+        type: Date,
+        default: Date.now
+    },
+    userType: {
+        type: String,
+        default: ""
     }
 },{timestamps: true});
 

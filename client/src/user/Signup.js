@@ -5,32 +5,32 @@ import {signup} from '../auth'
 const Signup = () => {
     // useState
     const [values, setValues] = useState({
-        name: '',
-        email: '',
+        userName: '',
+        userEmail: '',
         password: '',
         error: '',
         success: false
     });
 
-    const {name, email, password, error, success} = values;
-    
+    const {userName, userEmail, password, error, success} = values;
 
-    const handleChange = name => event => {
-        setValues({...values, error: false, [name]: event.target.value})
+
+    const handleChange = userName => event => {
+        setValues({...values, error: false, [userName]: event.target.value})
     };
     const clickSubmit = (event) =>{
         event.preventDefault()
         setValues({...values, error: false})
-        signup({name, email, password})
+        signup({userName, userEmail, password})
         .then(data=> {
             if(data.error) {
                 setValues({...values, error: data.error, success: false})
-            } 
+            }
             else {
                 setValues({
                     ...values,
-                    name: '',
-                    email: '',
+                    userName: '',
+                    userEmail: '',
                     password: '',
                     error: '',
                     success: true
@@ -52,11 +52,11 @@ const Signup = () => {
         <form>
             <div className="form-group">
                 <label htmlFor="formGroupExampleInput">Name</label>
-                <input onChange={handleChange('name')} value={name} type="text" className="form-control" id="formGroupExampleInput" placeholder="Username" />
+                <input onChange={handleChange('userName')} value={userName} type="text" className="form-control" id="formGroupExampleInput" placeholder="Username" />
             </div>
             <div className="form-group">
                 <label htmlFor="formGroupExampleInput2">Email</label>
-                <input onChange={handleChange('email')} value={email} type="email" className="form-control" id="formGroupExampleInput2" placeholder="Email" />
+                <input onChange={handleChange('userEmail')} value={userEmail} type="email" className="form-control" id="formGroupExampleInput2" placeholder="Email" />
             </div>
             <div className="form-group">
                 <label htmlFor="formGroupExampleInput3">Password</label>
@@ -66,10 +66,10 @@ const Signup = () => {
         </form>
     )
     return <div>
-        <Layout title="Signup" description="Signup page" className="container col-lg-8 offset-lg-2">            
+        <Layout title="Signup" description="Signup page" className="container col-lg-8 offset-lg-2">
             {showError()}
             {showSuccess()}
-            {signUpForm()}            
+            {signUpForm()}
         </Layout>
     </div>
 }

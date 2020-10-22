@@ -1,8 +1,8 @@
 import {API} from '../config'
 import queryString from 'query-string'
 
-export const getProducts = (sortBy) => {
-    return fetch(`${API}/products?sortBy=${sortBy}&order=desc&limit=6`, {
+export const getProducts = (sortBy, limit) => {
+    return fetch(`${API}/products?sortBy=${sortBy}&order=desc&limit=${limit}`, {
         method: "GET"
     })
     .then(response => {
@@ -44,7 +44,7 @@ export const getFilteredProducts = (skip, limit, filters = {}) => {
 // Search by. Using plugin query-s
 export const list = parrams => {
     const query = queryString.stringify(parrams)
-    console.log('query', query)
+    //console.log('query', query)
     return fetch(`${API}/products/search?${query}`, {
         method: "GET"
     })
@@ -114,11 +114,21 @@ export const createOrder = (userId, token, createOrderData) => {
             Accept: 'application/json',
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`
-        },      
+        },
         body: JSON.stringify({order: createOrderData})
     })
     .then(response => {
         return response.json()
     })
     .catch(err => console.log(err))
+}
+// Home Product
+export const homeProduct = (sortBy, limit) => {
+  return fetch(`${API}/products/by/homeproduct?sortBy=${sortBy}&order=desc&limit=${limit}`, {
+    method: "GET"
+  })
+  .then(response => {
+    return response.json()
+  })
+  .catch(err => console.log(err))
 }

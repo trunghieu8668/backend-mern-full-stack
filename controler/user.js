@@ -5,8 +5,8 @@ const { errorHandler } = require('../helpers/dbErrorHandle');
 const { Order } = require('../models/order')
 
 exports.userById = (req, res, next, id)=>{
-    User.findById(id).exec((err, user)=>{
-        if(err || !user) {
+    User.findById(id).exec((error, user)=>{
+        if(error || !user) {
             return res.status(400).json({
                 error: "User not found"
             });
@@ -14,8 +14,8 @@ exports.userById = (req, res, next, id)=>{
         try {
             req.profile = user;
         }
-        catch{(err)=>{
-            return err;
+        catch{(error)=>{
+            return error;
             }
         }
         next();
@@ -40,20 +40,20 @@ exports.update = (req, res) => {
     //     res.json(user)
     //
     // })
-    const { name, password } = req.body;
+    const { userName, password } = req.body;
 
-    User.findOne({ _id: req.profile._id }, (err, user) => {
-        if (err || !user) {
+    User.findOne({ _id: req.profile._id }, (error, user) => {
+        if (error || !user) {
             return res.status(400).json({
                 error: 'User not found'
             });
         }
-        if (!name) {
+        if (!userName) {
             return res.status(400).json({
                 error: 'Name is required'
             });
         } else {
-            user.name = name;
+            user.userName = userName;
         }
 
         if (password) {
@@ -105,7 +105,7 @@ exports.addOrderToUserHistory = (req, res, next) => {
 
 exports.purchaseHistory = (req, res) => {
   Order.find({user: req.profile._id})
-  .populate('user', '_id name')
+  .populate('user', '_id UserName')
   .sort('-created')
   .exec((error, orders)=> {
     if(error) {

@@ -5,27 +5,29 @@ const expressJwt = require('express-jwt'); // for authorization check
 
 exports.signup = (req, res) => {
     const user = new User(req.body);
-    user.save((err, user)=>{
-        if(err) {
+    console.log(user);
+    user.save((error, user)=>{
+        if(error) {
+          console.log(error._message);
             return res.status(400).json({
-                err: errorHandler(err)
+                error: errorHandler(error)
             })
         }
         user.salt = undefined;
         user.hashed_password = undefined;
         res.json({
-            user
+          user
         })
     })
 }
 
 exports.signin = (req, res)=>{
     // find the user based on email
-    const { email, password } = req.body;
-    User.findOne({email}, (err, user)=>{
-        if(err || !user){
+    const { userEmail, password } = req.body;
+    User.findOne({userEmail}, (error, user)=>{
+        if(error || !user){
             return res.status(400).json({
-                err: 'User with that email does not exist. Please signup'
+                error: 'User with that email does not exist. Please signup'
             })
         }
         // if user is found make sure the email anh password match
@@ -41,8 +43,8 @@ exports.signin = (req, res)=>{
         //  persist the token as 't' in cookie with expiry date
         res.cookie('t', token, {expire: new Date() + 999, httpOnly: true})
         // return response with user anh token to frontend client
-        const {_id, name, email, role} = user;
-        return res.json({token, user: {_id, email, name, role}})
+        const {_id, userName, userEmail, role} = user;
+        return res.json({token, user: {_id, userEmail, userName, role}})
     })
 }
 
@@ -79,17 +81,32 @@ exports.isAuth = (req, res, next) =>{
         const {_id} = payload
         User.findById(_id)
         .then((userData)=> {
-           res.user = userData
+          //console.log(userData);
+          res.user = userData
         })
         next()
     })
 }
 
 exports.isAdmin = (req, res, next) => {
-    if(req.profile.role === 0) {
-        return res.status(403).json({
-            error: "Admin resource! Access denied"
+    // if(req.profile.role === 0) {
+    //     return res.status(403).json({
+    //         error: "Admin resource! Access denied"
+    //     })
+    // }
+    // next();
+    User.findById({_id: req.profile._id}).exec((error, user) => {
+      if(!user || error) {
+        return res.status(400).json({
+          error: 'User not found'
         })
-    }
-    next();
+      }
+      if(user.role !== 1) {
+        return res.status(400).json({
+          error: 'Admin resource. Access denied.'
+        })
+      }
+      //req.profile = user;
+      next()
+    })
 }

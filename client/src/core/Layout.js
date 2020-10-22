@@ -1,10 +1,11 @@
 import React from 'react';
-import Menu from './Menu';
+import Header from './Header';
+import Footer from './Footer'
 import '../styles.css'
 const Layout = ({title = '', description = '', className, children}) => {
     return (
         <div>
-            <Menu/>
+            <Header/>
             {title && (
               <div className="jumbotron">
                   <div className="container">
@@ -15,6 +16,7 @@ const Layout = ({title = '', description = '', className, children}) => {
             )}
 
             <div className={className}>{children}</div>
+            <Footer />
         </div>
     );
 };

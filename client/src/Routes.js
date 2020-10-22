@@ -1,4 +1,6 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles/style-cms.css'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Signup from './user/Signup'
 import Signin from './user/Signin'

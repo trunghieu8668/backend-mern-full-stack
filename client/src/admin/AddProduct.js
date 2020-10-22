@@ -32,7 +32,7 @@ const AddProduct = () => {
         category,
         shipping,
         quantity,
-        loading,
+        loading,photo,
         error,
         createdProduct,
         redirectToProfile,
@@ -51,7 +51,7 @@ const AddProduct = () => {
     }
     // step 7
     useEffect(()=> {
-        // Step 15 hidden 
+        // Step 15 hidden
         //setValues({ ...values, formData: new FormData() })
         // Step 16
         init()
@@ -78,11 +78,11 @@ const AddProduct = () => {
             }
             else {
                 setValues({
-                    ...values, 
-                    name: '', 
+                    ...values,
+                    name: '',
                     description: '',
                     photo: '',
-                    price: '', 
+                    price: '',
                     quantity: '',
                     loading: false,
                     createdProduct: data.name
@@ -110,7 +110,7 @@ const AddProduct = () => {
     // step 3
     const newPostForm = () => (
         // Step 9 onSubmit={clickSubmit}
-        <form className="mb-3" onSubmit={clickSubmit}>            
+        <form className="mb-3" onSubmit={clickSubmit}>
             <div className="form-row mb-3">
                 <div className="col">
                     <label>Picture</label>
@@ -123,22 +123,22 @@ const AddProduct = () => {
             </div>
             <div className="form-row mb-3">
                 <div className="col">
-                    <label>Product name</label>   
+                    <label>Product name</label>
                 </div>
-                <div className="col-lg-12">             
-                    <input type="text" className="form-control form-control-lg" onChange={handleChange('name')} value={name} placeholder="Product name" required/>                
+                <div className="col-lg-12">
+                    <input type="text" className="form-control form-control-lg" onChange={handleChange('name')} value={name} placeholder="Product name" required/>
                 </div>
             </div>
             <div className="form-group">
-                <label>Dectiption</label>                
+                <label>Dectiption</label>
                 <textarea className="form-control" onChange={handleChange('description')} value={description} placeholder="Description"></textarea>
             </div>
             <div className="form-group">
-                <label>Price</label>                
-                <input type="number" className="form-control" onChange={handleChange('price')} value={price} placeholder="Price"/>                
+                <label>Price</label>
+                <input type="number" className="form-control" onChange={handleChange('price')} value={price} placeholder="Price"/>
             </div>
             <div className="form-group">
-                <label>Category</label>                
+                <label>Category</label>
                 <select className="custom-select d-block w-100" onChange={handleChange('category')} required>
                     <option value="0">Select</option>
                     {/* Step 17 */}
@@ -150,7 +150,7 @@ const AddProduct = () => {
                 </select>
             </div>
             <div className="form-group">
-                <label>Shipping</label>                
+                <label>Shipping</label>
                 <select className="custom-select d-block w-100" onChange={handleChange('shipping')}>
                     <option> Select</option>
                     <option value="0">No</option>
@@ -158,8 +158,8 @@ const AddProduct = () => {
                 </select>
             </div>
             <div className="form-group">
-                <label>Quantity</label>                
-                <input type="number" className="form-control" onChange={handleChange('quantity')} value={quantity} placeholder="Quantity"/>                
+                <label>Quantity</label>
+                <input type="number" className="form-control" onChange={handleChange('quantity')} value={quantity} placeholder="Quantity"/>
             </div>
             <div className="text-center">
                 <button className="btn btn-info btn-lg btn-block active">Submit</button>
@@ -168,8 +168,8 @@ const AddProduct = () => {
     )
     return (
         <Layout title="Add a new product" description={`Good day ${user.name}, ready to add a new product`} className="container">
-            <div className="row">                
-                
+            <div className="row">
+
                 <div className="col-md-10 offset-md-1">
                     {/* Step 21 */}
                     {showLoading()}
@@ -179,7 +179,7 @@ const AddProduct = () => {
                     {newPostForm()}
                 </div>
             </div>
-            
+
         </Layout>
     );
 }
