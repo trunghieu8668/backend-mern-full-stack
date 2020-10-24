@@ -58,6 +58,7 @@ if(process.env.NODE_ENV == 'production'){
   // when going to `/`, serve the files at mainApp/build/* as static files
   app.use(express.static(path.join(__dirname, 'client/build')))
 
+  const path = require('path')
   // These are necessary for routing within react
   app.get('admin/*', (req, res) => {
       res.sendFile(path.join(__dirname + '/backend/build/index.html'))
