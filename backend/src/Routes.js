@@ -12,8 +12,8 @@ const Routes = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <AdminRoute path="/" exact component={Login}/>
-        <Route path="/admin" exact component={Login}/>
+        
+        <Route path="/admin/login" exact component={Login}/>
         <AdminRoute path="/admin/dashboard" exact component={Dashboard}/>
         <AdminRoute path="/admin/product/productsearch" exact component={ProductSearch}/>
         <AdminRoute path="/admin/product/update/:productId" exact component={UpdateProduct}/>
